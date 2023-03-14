@@ -1,0 +1,2 @@
+Dataset <- readXL("C:/Users/Miguel/Desktop/Todoo/TAREA/Semestre 1 sistemas/Colas/Datos.xls", 
+  rownames=FALSE, header=TRUE, na="", sheet="Hoja1", stringsAsFactors=TRUE)

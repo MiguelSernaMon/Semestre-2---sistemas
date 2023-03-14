@@ -1,0 +1,210 @@
+<!-- R Commander Markdown Template -->
+
+Replace with Main Title
+=======================
+
+### Your Name
+
+### `r as.character(Sys.Date())`
+
+```{r echo=FALSE}
+# include this code chunk as-is to set options
+knitr::opts_chunk$set(comment=NA, prompt=TRUE, out.width=750, fig.height=8, fig.width=8)
+library(Rcmdr)
+library(car)
+library(RcmdrMisc)
+```
+
+
+```{r echo=FALSE}
+# include this code chunk as-is to enable 3D graphs
+library(rgl)
+knitr::knit_hooks$set(webgl = hook_webgl)
+```
+
+
+```{r}
+Dataset <- 
+  readXL("C:/Users/Miguel/Desktop/Todoo/TAREA/Semestre 1 sistemas/Colas/UNIDAD 1/Datos trabajo descriptiva.xlsx",
+   rownames=FALSE, header=TRUE, na="", sheet="creditos_de_consumo_otorgados", stringsAsFactors=TRUE)
+```
+
+```{r}
+summary(Dataset)
+```
+
+
+```{r}
+str(Dataset)
+```
+
+
+```{r}
+names(Dataset)[c(11)] <- c("fecha_de_beneficio_año")
+```
+
+```{r}
+local({
+  .Table <- with(Dataset, table(barrio_vereda))
+  cat("\ncounts:\n")
+  print(.Table)
+  cat("\npercentages:\n")
+  print(round(100*.Table/sum(.Table), 2))
+})
+```
+
+```{r}
+Dataset <- within(Dataset, {
+  barrio_vereda <- Recode(barrio_vereda, 
+  '"antonio nariÃ±o" = "antonio nariño"; "belen vicuÃ±a" = "belen vicuña"; "campiÃ±as abiertas" = "campiñas abiertas"; "cataluÃ±a" = "cataluña"; "robledo la campiÃ±a" = "robledo la campiña"; "robledo villa campiÃ±a" = "robledo villa campiña"; "san cristÃ³bal" = "san cristóbal"; "san javier antonio nariÃ±o" = "san javier antonio nariño"; "san jose de la montaÃ±a" = "san jose de la montaña"',
+   as.factor=TRUE)
+})
+```
+
+```{r}
+Dataset <- within(Dataset, {
+  comuna <- Recode(comuna, '"12-la amÃ©️rica" = "12-la américa"; "16-belÃ©️n" = "16-belén"', as.factor=TRUE)
+})
+```
+
+```{r}
+Dataset <- within(Dataset, {
+  caracterizacion_ciudadano <- Recode(caracterizacion_ciudadano, 
+  '"cootranscataluÃ±a" = "cootranscataluña"', as.factor=TRUE)
+})
+```
+
+```{r}
+summary(Dataset)
+```
+
+
+```{r}
+Dataset <- within(Dataset, {
+  sexo <- Recode(sexo, '"femenino" = "Mujer"; "Femenino" = "Mujer"; "masculino" = "Hombre"; "Masculino" = "Hombre";', as.factor=TRUE)
+})
+```
+
+```{r}
+names(Dataset)[c(2)] <- c("SEXO")
+```
+
+```{r}
+str(Dataset)
+```
+
+
+```{r}
+Dataset <- within(Dataset, {
+  estrato <- as.factor(estrato)
+  fecha_de_beneficio_año <- as.factor(fecha_de_beneficio_año)
+  fecha_de_beneficio_dia <- as.factor(fecha_de_beneficio_dia)
+  fecha_de_beneficio_mes <- as.factor(fecha_de_beneficio_mes)
+})
+```
+
+```{r}
+str(Dataset)
+```
+
+
+```{r}
+summary(Dataset)
+```
+
+
+```{r}
+vecEdad <- Dataset[c(1)]
+```
+
+
+```{r}
+vecEdad
+```
+
+
+```{r}
+print(vecEdad)
+```
+
+
+```{r}
+datos <- Dataset[c(1)]
+```
+
+
+```{r}
+minimo <- min(datos) ; minimo
+```
+
+
+```{r}
+maximo <- max(datos) ; maximo
+```
+
+
+```{r}
+rango <- maximo - minimo ; rango
+```
+
+
+```{r}
+n <- length(datos) ; n
+```
+
+
+```{r}
+intervalos <- 1 + (3.32 * log10(n)) ; intervalos
+```
+
+
+```{r}
+save(datos,file ="myvector.txt")
+```
+
+
+```{r}
+save(datos,file ="myvector.rda")
+```
+
+```{r}
+edad <- subset(Dataset, select=c(edad))
+```
+
+```{r}
+write.table(edad, "C:/Users/Miguel/Desktop/Todoo/TAREA/Semestre 1 sistemas/Colas/UNIDAD 1/edad.csv", sep=",", col.names=TRUE, row.names=TRUE, quote=TRUE, na="NA")
+```
+
+```{r}
+write.table(edad, 
+  "C:/Users/Miguel/Desktop/Todoo/TAREA/Semestre 1 sistemas/Colas/UNIDAD 1/edad.csv", sep=",",
+   col.names=FALSE, row.names=FALSE, quote=TRUE, na="NA")
+```
+
+```{r}
+write.table(edad, 
+  "C:/Users/Miguel/Desktop/Todoo/TAREA/Semestre 1 sistemas/Colas/UNIDAD 1/edad.csv", sep=",",
+   col.names=FALSE, row.names=FALSE, quote=TRUE, na="NA")
+```
+
+```{r}
+write.table(edad, 
+  "C:/Users/Miguel/Desktop/Todoo/TAREA/Semestre 1 sistemas/Colas/UNIDAD 1/edad.csv", sep=",",
+   col.names=TRUE, row.names=FALSE, quote=TRUE, na="NA")
+```
+
+```{r}
+write.table(edad,
+"C:/Users/Miguel/Desktop/Todoo/TAREA/Semestre 1 sistemas/Colas/UNIDAD 1/edad.csv", sep=",",
+col.names=TRUE, row.names=FALSE, quote=TRUE, na="NA")
+```
+
+
+```{r}
+with(edad, Hist(edad, scale="frequency", breaks="Sturges", col="darkgray"))
+```
+
+```{r}
+Boxplot( ~ edad, data=edad, id=list(method="y"))
+```
+
